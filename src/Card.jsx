@@ -1,4 +1,4 @@
-function Card({ id, name, email }) {
+export default function Card({ id, name, email }) {
   return (
     <>
       <div
@@ -18,5 +18,3 @@ function Card({ id, name, email }) {
     </>
   );
 }
-
-export default Card;
