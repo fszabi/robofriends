@@ -3,8 +3,6 @@ import ReactDOM from "react-dom/client";
 import Card from "./Card.jsx";
 import "./index.css";
 import { robots } from "./robots.js";
-import LogRocket from "logrocket";
-LogRocket.init("qu8xog/robofriends");
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
