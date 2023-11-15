@@ -1,15 +1,66 @@
-import { robots } from "./robots.js";
-import Card from "./Card.jsx";
+import React, { Component } from "react";
+import Scroll from "./Scroll.jsx";
+import CardList from "./CardList.jsx";
+import SearchBox from "./SearchBox.jsx";
 
-export default function App() {
-  return (
-    <>
-      <div className="flex justify-center gap-5 p-5">
-        <Card id={robots[0].id} name={robots[0].name} email={robots[0].email} />
-        <Card id={robots[1].id} name={robots[1].name} email={robots[1].email} />
-        <Card id={robots[2].id} name={robots[2].name} email={robots[2].email} />
-      </div>
-      ;
-    </>
-  );
+export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      robots: [],
+      searchfield: "",
+    };
+  }
+
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((users) => this.setState({ robots: users }));
+  }
+
+  onSearchChange = (event) => {
+    this.setState({ searchfield: event.target.value });
+  };
+
+  render() {
+    const filteredRobots = this.state.robots.filter((robot) => {
+      return robot.name
+        .toLowerCase()
+        .includes(this.state.searchfield.toLowerCase());
+    });
+
+    if (this.state.robots.length === 0) {
+      return (
+        <>
+          <main className="w-screen h-screen grid place-items-center">
+            <section className="py-10">
+              <div className="container space-y-10 text-center">
+                <h1 className="font-mono text-[#0ccac4] text-6xl font-bold uppercase">
+                  Loading...
+                </h1>
+              </div>
+            </section>
+          </main>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <main>
+            <section className="py-10">
+              <div className="container space-y-10 text-center">
+                <h1 className="font-mono text-[#0ccac4] text-6xl font-bold uppercase">
+                  RoboFriends
+                </h1>
+                <SearchBox searchChange={this.onSearchChange} />
+                <Scroll>
+                  <CardList robots={filteredRobots} />
+                </Scroll>
+              </div>
+            </section>
+          </main>
+        </>
+      );
+    }
+  }
 }
