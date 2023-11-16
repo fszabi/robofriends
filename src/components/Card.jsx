@@ -8,7 +8,7 @@ export default function Card({ id, name, email }) {
       >
         <img
           className="mx-auto"
-          src={`https://robohash.org/${id}?size=400x400`}
+          src={`https://robohash.org/${id}?size=200x200`}
           alt="robot photo"
         />
         <div className="space-y-1">
