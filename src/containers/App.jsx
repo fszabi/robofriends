@@ -2,37 +2,24 @@ import { useState, useEffect } from "react";
 import Scroll from "../components/Scroll.jsx";
 import CardList from "../components/CardList.jsx";
 import SearchBox from "../components/SearchBox.jsx";
-import ErrorBoundary from "../components/ErrorBoundary.jsx";
 
 export default function App() {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     robots: [],
-  //     searchfield: "",
-  //   };
-  // }
-
-  // componentDidMount() {
-  //   fetch("https://jsonplaceholder.typicode.com/users")
-  //     .then((response) => response.json())
-  //     .then((users) => this.setState({ robots: users }));
-  // }
-
   const [robots, setRobots] = useState([]);
   const [searchfield, setSearchfield] = useState("");
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((users) => setRobots(users));
+  }, []);
 
   const onSearchChange = (event) => {
     setSearchfield(event.target.value);
   };
 
-  // const { robots, searchfield } = this.state;
-
   const filteredRobots = robots.filter((robot) => {
     return robot.name.toLowerCase().includes(searchfield.toLowerCase());
   });
-
-  console.log(robots, searchfield);
 
   return !robots.length ? (
     <>
@@ -56,9 +43,7 @@ export default function App() {
             </h1>
             <SearchBox searchChange={onSearchChange} />
             <Scroll>
-              <ErrorBoundary>
-                <CardList robots={filteredRobots} />
-              </ErrorBoundary>
+              <CardList robots={filteredRobots} />
             </Scroll>
           </div>
         </section>
