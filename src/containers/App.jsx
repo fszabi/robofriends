@@ -8,9 +8,13 @@ export default function App() {
   const [searchfield, setSearchfield] = useState("");
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((users) => setRobots(users));
+    async function fetchUsers() {
+      const res = await fetch("https://jsonplaceholder.typicode.com/users");
+      const resData = await res.json();
+      setRobots(resData);
+    }
+
+    fetchUsers();
   }, []);
 
   const onSearchChange = (event) => {
